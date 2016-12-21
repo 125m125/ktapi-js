@@ -13,6 +13,36 @@
             shaObj.update(text);
             return shaObj.getHMAC("HEX");
         },
+        paramsToQuery = function (params) {
+            var result = "",
+                sorted_keys = Object.keys(params).sort();
+            sorted_keys.forEach(function (entry) {
+                result += entry + "=" + params[entry] + "&";
+            });
+            if (result.length) {
+                return result.slice(0, -1);
+            }
+            return result;
+        },
+        performRequest = function (method, type, suburl, params, token, primaryParam, callback) {
+            var url;
+            if (token) {
+                params.timestamp = (new Date()).getTime();
+                params.signature = hmac(paramsToQuery(params), token);
+            }
+            if (method === "GET") {
+                url = baseUrl + suburl + "?" + paramsToQuery(params);
+                d3[type](url, callback);
+            } else {
+                if (primaryParam) {
+                    url = baseUrl + suburl + "?" + primaryParam + "=" + params[primaryParam];
+                    delete params[primaryParam];
+                } else {
+                    url = baseUrl + suburl;
+                }
+                d3.request(url).header("Content-Type", "application/x-www-form-urlencoded").post(paramsToQuery(params), callback);
+            }
+        },
         user,
         kt = {
             setUser: function (uid, tid, tkn) {
@@ -23,36 +53,29 @@
                 };
             },
             getItems: function (callback, user) {
-                var timestamp = (new Date()).getTime(),
-                    url = baseUrl + "itemlist",
-                    params;
+                var params = {};
                 user = user || this.user;
-                params = "tid=" + user.tid + "&timestamp=" + timestamp + "&uid=" + user.uid;
-                url += "?" + params + "&signature=" + hmac(params, user.tkn);
-                d3.csv(url, callback);
+                params = {
+                    uid: user.uid,
+                    tid: user.tid
+                };
+                performRequest("GET", "csv", "itemlist", params, user.tkn, false, callback);
             },
             getTrades: function (callback, user) {
-                var timestamp = (new Date()).getTime(),
-                    url = baseUrl + "trades",
-                    params;
+                var params = {};
                 user = user || this.user;
-                params = "tid=" + user.tid + "&timestamp=" + timestamp + "&uid=" + user.uid;
-                url += "?" + params + "&signature=" + hmac(params, user.tkn);
-                d3.csv(url, callback);
-            },
-            getPrice: function (item, callback) {
-                item = (typeof item === "string") ? item : item.id;
-                d3.csv(baseUrl + "history?res=" + item + "&limit=1", function (data) {
-                    if (data.length > 0) {
-                        callback(data[0].close);
-                    } else {
-                        callback(0);
-                    }
-                });
+                params = {
+                    uid: user.uid,
+                    tid: user.tid
+                };
+                performRequest("GET", "csv", "trades", params, user.tkn, false, callback);
             },
             getHistory: function (item, limit, callback) {
                 item = (typeof item === "string") ? item : item.id;
-                d3.csv(baseUrl + "history?res=" + item + "&limit=" + limit, function (data) {
+                d3.csv(baseUrl + "history?res=" + item + "&limit=" + limit, callback);
+            },
+            getPrice: function (item, callback) {
+                this.getHistory(item, 1, function (data) {
                     if (data.length > 0) {
                         callback(data[0].close);
                     } else {
@@ -61,15 +84,19 @@
                 });
             },
             createTrade: function (buyOrSell, item, count, price, callback, user) {
-                var timestamp = (new Date()).getTime(),
-                    url = baseUrl + "trades",
-                    paramsA,
-                    paramsB;
+                var params;
                 user = user || this.user;
-                paramsA = "bs=" + (buyOrSell ? "buy" : "sell") + "&count=" + count;
-                paramsB = "item=" + item + "&price=" + price + "&tid=" + user.tid + "&timestamp=" + timestamp + "&uid=" + user.uid;
-                paramsB += "&signature=" + hmac(paramsA + "&create=create&" + paramsB, user.tkn);
-                d3.request(url + "?create=create").header("Content-Type", "application/x-www-form-urlencoded").post(paramsA + "&" + paramsB, callback);
+                item = (typeof item === "string") ? item : item.id;
+                params = {
+                    "create": "create",
+                    "bs": (buyOrSell ? "buy" : "sell"),
+                    "item": item,
+                    "count": count,
+                    "price": price,
+                    "uid": user.uid,
+                    "tid": user.tid
+                };
+                performRequest("POST", false, "trades", params, user.tkn, "create", callback);
             },
             buy: function (item, count, price, callback, user) {
                 this.createTrade(true, item, count, price, callback, user);
@@ -78,24 +105,28 @@
                 this.createTrade(false, item, count, price, callback, user);
             },
             cancelTrade: function (trade, callback, user) {
-                var timestamp = (new Date()).getTime(),
-                    url = baseUrl + "trades",
-                    params;
-                user = user || this.user;
-                trade = (trade instanceof String) ? trade : trade.id;
-                params = "tid=" + user.tid + "&timestamp=" + timestamp + "&tradeid=" + trade + "&uid=" + user.uid;
-                params += "&signature=" + hmac("cancel=cancel&" + params, user.tkn);
-                d3.request(url + "?cancel=cancel").header("Content-Type", "application/x-www-form-urlencoded").post(params, callback);
-            },
-            takeout: function (trade, callback, user) {
-                var timestamp = (new Date()).getTime(),
-                    url = baseUrl + "trades",
-                    params;
+                var params;
                 user = user || this.user;
                 trade = (typeof trade === "string") ? trade : trade.id;
-                params = "tid=" + user.tid + "&timestamp=" + timestamp + "&tradeid=" + trade + "&uid=" + user.uid;
-                params += "&signature=" + hmac("takeout=takeout&" + params, user.tkn);
-                d3.request(url + "?takeout=takeout").header("Content-Type", "application/x-www-form-urlencoded").post(params, callback);
+                params = {
+                    "cancel": "cancel",
+                    "tradeid": trade,
+                    "uid": user.uid,
+                    "tid": user.tid
+                };
+                performRequest("POST", false, "trades", params, user.tkn, "cancel", callback);
+            },
+            takeout: function (trade, callback, user) {
+                var params;
+                user = user || this.user;
+                trade = (typeof trade === "string") ? trade : trade.id;
+                params = {
+                    "takeout": "takeout",
+                    "tradeid": trade,
+                    "uid": user.uid,
+                    "tid": user.tid
+                };
+                performRequest("POST", false, "trades", params, user.tkn, "takeout", callback);
             }
 
         };
