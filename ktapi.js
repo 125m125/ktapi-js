@@ -66,6 +66,7 @@
             };
             performRequest("GET", "csv", "trades", params, user.tkn, false, callback);
         };
+
         this.getHistory = function (item, limit, callback) {
             item = (typeof item === "string") ? item : item.id;
             d3.csv(baseUrl + "history?res=" + item + "&limit=" + limit, callback);
@@ -75,10 +76,47 @@
                 if (data.length > 0) {
                     callback(data[0].close);
                 } else {
-                    callback(0);
+                    callback(-1);
                 }
             });
         };
+
+        this.getOrderBook = function (item, limit, summarize, callback) {
+            item = (typeof item === "string") ? item : item.id;
+            d3.csv(baseUrl + "order?res=" + item + "&limit=" + limit + "&summarize=" + summarize, callback);
+        };
+        this.getOrderBookPrice = function (item, buyOrSell, trumpSame, callback) {
+            this.getOrderBook(item, 1, false, function (data) {
+                var price = -1;
+                data.forEach(function (entry) {
+                    if (buyOrSell !== (entry.type === "buy")) {
+                        price = entry.price;
+                    } else if (trumpSame) {
+                        if (buyOrSell) {
+                            price = Math.max(price, Number(entry.price) + 0.01);
+                        } else {
+                            if (price === -1) {
+                                price = Number(entry.price) - 0.01;
+                            } else {
+                                price = Math.min(price, Number(entry.price) - 0.01);
+                            }
+                        }
+                    }
+                });
+                callback(price);
+            });
+        };
+
+        this.getRecommendedPrice = function (item, buyOrSell, callback) {
+            this.getOrderBookPrice(item, buyOrSell, true, function (result) {
+                if (result !== -1) {
+                    callback(result);
+                } else {
+                    this.getPrice(item, callback);
+                }
+            }.bind(this));
+        };
+
         this.createTrade = function (buyOrSell, item, count, price, callback) {
             var params;
             item = (typeof item === "string") ? item : item.id;
