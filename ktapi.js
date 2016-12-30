@@ -42,93 +42,85 @@
                 }
                 d3.request(url).header("Content-Type", "application/x-www-form-urlencoded").post(paramsToQuery(params), callback);
             }
-        },
-        user,
-        kt = {
-            setUser: function (uid, tid, tkn) {
-                this.user = {
-                    "uid": uid,
-                    "tid": tid,
-                    "tkn": tkn
-                };
-            },
-            getItems: function (callback, user) {
-                var params = {};
-                user = user || this.user;
-                params = {
-                    uid: user.uid,
-                    tid: user.tid
-                };
-                performRequest("GET", "csv", "itemlist", params, user.tkn, false, callback);
-            },
-            getTrades: function (callback, user) {
-                var params = {};
-                user = user || this.user;
-                params = {
-                    uid: user.uid,
-                    tid: user.tid
-                };
-                performRequest("GET", "csv", "trades", params, user.tkn, false, callback);
-            },
-            getHistory: function (item, limit, callback) {
-                item = (typeof item === "string") ? item : item.id;
-                d3.csv(baseUrl + "history?res=" + item + "&limit=" + limit, callback);
-            },
-            getPrice: function (item, callback) {
-                this.getHistory(item, 1, function (data) {
-                    if (data.length > 0) {
-                        callback(data[0].close);
-                    } else {
-                        callback(0);
-                    }
-                });
-            },
-            createTrade: function (buyOrSell, item, count, price, callback, user) {
-                var params;
-                user = user || this.user;
-                item = (typeof item === "string") ? item : item.id;
-                params = {
-                    "create": "create",
-                    "bs": (buyOrSell ? "buy" : "sell"),
-                    "item": item,
-                    "count": count,
-                    "price": price,
-                    "uid": user.uid,
-                    "tid": user.tid
-                };
-                performRequest("POST", false, "trades", params, user.tkn, "create", callback);
-            },
-            buy: function (item, count, price, callback, user) {
-                this.createTrade(true, item, count, price, callback, user);
-            },
-            sell: function (item, count, price, callback, user) {
-                this.createTrade(false, item, count, price, callback, user);
-            },
-            cancelTrade: function (trade, callback, user) {
-                var params;
-                user = user || this.user;
-                trade = (typeof trade === "string") ? trade : trade.id;
-                params = {
-                    "cancel": "cancel",
-                    "tradeid": trade,
-                    "uid": user.uid,
-                    "tid": user.tid
-                };
-                performRequest("POST", false, "trades", params, user.tkn, "cancel", callback);
-            },
-            takeout: function (trade, callback, user) {
-                var params;
-                user = user || this.user;
-                trade = (typeof trade === "string") ? trade : trade.id;
-                params = {
-                    "takeout": "takeout",
-                    "tradeid": trade,
-                    "uid": user.uid,
-                    "tid": user.tid
-                };
-                performRequest("POST", false, "trades", params, user.tkn, "takeout", callback);
-            }
-
         };
-    window.kt = kt;
+
+    function Kt(uid, tid, tkn) {
+        var user = {
+            "uid": uid,
+            "tid": tid,
+            "tkn": tkn
+        };
+        this.getItems = function (callback) {
+            var params = {};
+            params = {
+                uid: user.uid,
+                tid: user.tid
+            };
+            performRequest("GET", "csv", "itemlist", params, user.tkn, false, callback);
+        };
+        this.getTrades = function (callback) {
+            var params = {};
+            params = {
+                uid: user.uid,
+                tid: user.tid
+            };
+            performRequest("GET", "csv", "trades", params, user.tkn, false, callback);
+        };
+        this.getHistory = function (item, limit, callback) {
+            item = (typeof item === "string") ? item : item.id;
+            d3.csv(baseUrl + "history?res=" + item + "&limit=" + limit, callback);
+        };
+        this.getPrice = function (item, callback) {
+            this.getHistory(item, 1, function (data) {
+                if (data.length > 0) {
+                    callback(data[0].close);
+                } else {
+                    callback(0);
+                }
+            });
+        };
+        this.createTrade = function (buyOrSell, item, count, price, callback) {
+            var params;
+            item = (typeof item === "string") ? item : item.id;
+            params = {
+                "create": "create",
+                "bs": (buyOrSell ? "buy" : "sell"),
+                "item": item,
+                "count": count,
+                "price": price,
+                "uid": user.uid,
+                "tid": user.tid
+            };
+            performRequest("POST", false, "trades", params, user.tkn, "create", callback);
+        };
+        this.buy = function (item, count, price, callback) {
+            this.createTrade(true, item, count, price, callback);
+        };
+        this.sell = function (item, count, price, callback) {
+            this.createTrade(false, item, count, price, callback);
+        };
+        this.cancelTrade = function (trade, callback) {
+            var params;
+            trade = (typeof trade === "string") ? trade : trade.id;
+            params = {
+                "cancel": "cancel",
+                "tradeid": trade,
+                "uid": user.uid,
+                "tid": user.tid
+            };
+            performRequest("POST", false, "trades", params, user.tkn, "cancel", callback);
+        };
+        this.takeout = function (trade, callback) {
+            var params;
+            trade = (typeof trade === "string") ? trade : trade.id;
+            params = {
+                "takeout": "takeout",
+                "tradeid": trade,
+                "uid": user.uid,
+                "tid": user.tid
+            };
+            performRequest("POST", false, "trades", params, user.tkn, "takeout", callback);
+        };
+    }
+    window.Kt = Kt;
 }());
