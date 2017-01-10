@@ -7,6 +7,9 @@
 
     var baseUrl = "https://kt.125m125.de/api/",
         hashType = "SHA-256",
+        maxSignatureOffset = 4 * 60 * 1000,
+        dTime = 0,
+        last = 0,
         hmac = function (text, key) {
             var shaObj = new jsSHA(hashType, "TEXT");
             shaObj.setHMACKey(key, "TEXT");
@@ -27,7 +30,14 @@
         performRequest = function (method, type, suburl, params, token, primaryParam, callback) {
             var url;
             if (token) {
-                params.timestamp = (new Date()).getTime();
+                if (last) {
+                    if (last < new Date().getTime() - maxSignatureOffset) {
+                        last = new Date().getTime() + maxSignatureOffset;
+                    }
+                    params.timestamp = last + dTime;
+                } else {
+                    params.timestamp = (new Date()).getTime() + dTime;
+                }
                 params.signature = hmac(paramsToQuery(params), token);
             }
             if (method === "GET") {
@@ -42,14 +52,39 @@
                 }
                 d3.request(url).header("Content-Type", "application/x-www-form-urlencoded").post(paramsToQuery(params), callback);
             }
+        },
+        syncTime = function () {
+            var start = new Date();
+            d3.request(baseUrl + "ping", function (response) {
+                var end = new Date(),
+                    servertime = new Date(parseInt(response.response, 10)),
+                    delta = servertime.getTime() - (start.getTime() + end.getTime()) / 2;
+                if (dTime === 0) {
+                    dTime = Math.round(delta);
+                } else {
+                    dTime = Math.round((dTime + delta) / 2);
+                }
+                last = new Date().getTime() + maxSignatureOffset;
+            });
         };
 
     function Kt(uid, tid, tkn) {
         var user = {
-            "uid": uid,
-            "tid": tid,
-            "tkn": tkn
+                "uid": uid,
+                "tid": tid,
+                "tkn": tkn
+            },
+            permissions;
+
+        this.getPermissions = function (callback) {
+            var start = new Date();
+            performRequest("GET", "json", "permissions", {
+                uid: user.uid,
+                tid: user.tid
+            }, user.tkn, false, callback);
         };
+
+
         this.getItems = function (callback) {
             var params = {};
             params = {
@@ -159,6 +194,7 @@
             };
             performRequest("POST", false, "trades", params, user.tkn, "takeout", callback);
         };
+        this.syncTimeWithServer = syncTime;
     }
     window.Kt = Kt;
 }());
