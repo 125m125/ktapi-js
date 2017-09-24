@@ -21,7 +21,7 @@
             return result;
         },
         performRequest = function (method, type, suburl, params, headers, callback) {
-            var url;
+            var url, request;
             if (method === "GET") {
                 url = baseUrl + suburl + "?" + paramsToQuery(params);
                 params = null;
@@ -31,22 +31,26 @@
                     headers["Content-Type"] = "application/x-www-form-urlencoded";
                 }
             }
-            var request = d3[type](url);
-            Object.keys(headers).forEach(function (key) { request.header(key, headers[key]) });
+            request = d3[type](url);
+            Object.keys(headers).forEach(function (key) {
+                request.header(key, headers[key]);
+            });
             request.on("error", function (error) {
                 var errorTarget = error.target;
                 try {
                     return callback(JSON.parse(errorTarget.response));
-                } catch (e) {
-                }
+                } catch (e) {}
                 callback(errorTarget);
-            }).on("load", function (data) { callback(false, data) });
+            }).on("load", function (data) {
+                callback(false, data);
+            });
             request.send(method, paramsToQuery(params));
         };
+
     function HmacAuthenticator() {
         this.maxSignatureOffset = 4 * 60 * 1000;
-        this.hashType = "SHA-256",
-            this.dTime = 0;
+        this.hashType = "SHA-256";
+        this.dTime = 0;
         var last = 0;
         this.authenticate = function (method, type, suburl, params, headers, user) {
             params.tid = user.tid;
@@ -59,14 +63,14 @@
                 params.timestamp = (new Date()).getTime() + this.dTime;
             }
             params.signature = this.hmac(paramsToQuery(params), user.tkn, this.hashType);
-        }
+        };
     }
     HmacAuthenticator.prototype.hmac = function (text, key, hashType) {
         var shaObj = new jsSHA(hashType, "TEXT");
         shaObj.setHMACKey(key, "TEXT");
         shaObj.update(text);
         return shaObj.getHMAC("HEX");
-    }
+    };
 
     function Request(method, type, suburl, params, headers, user, authenticator) {
         this.execute = function (callback) {
@@ -76,23 +80,24 @@
             if (!headers) {
                 headers = {};
             }
-            suburl = suburl.replace(/{.*?}/g, function (key) {
+            suburl = suburl.replace(/\{[a-zA-Z0-9]+?\}/g, function (key) {
                 if (key === "{user}") {
                     return user.uid;
                 }
-                var key2 = key.substring(1, key.length - 1);
+                var key2 = key.substring(1, key.length - 1),
+                    result;
                 if (params.hasOwnProperty(key2) && params[key2] !== undefined) {
-                    var result = params[key2];
+                    result = params[key2];
                     delete params[key2];
                     return result;
                 }
-                return key
+                return key;
             });
             if (authenticator) {
                 authenticator.authenticate(method, type, suburl, params, headers, user);
             }
             performRequest(method, type, suburl, params, headers, callback);
-        }
+        };
     }
 
     function Kt(uid, tid, tkn, authenticator) {
@@ -119,16 +124,18 @@
                 requestAuthenticator = authenticator;
             }
             return new Request(method, type, suburl, params, headers, user, requestAuthenticator);
-        }
+        };
         this.performRequest = function (method, type, suburl, params, headers, auth, callback) {
             return this.getRequest(method, type, suburl, params, headers, auth).execute(callback);
-        }
+        };
     }
     Kt.prototype.getItems = function (callback) {
         this.performRequest("GET", "tsv", "users/{user}/items", null, null, true, callback);
     };
     Kt.prototype.getItem = function (item, callback) {
-        this.performRequest("GET", "tsv", "users/{user}/items/{item}", { "item": (typeof item === "string") ? item : item.id }, null, true, callback);
+        this.performRequest("GET", "tsv", "users/{user}/items/{item}", {
+            "item": (typeof item === "string") ? item : item.id
+        }, null, true, callback);
     };
     Kt.prototype.getTrades = function (callback) {
         this.performRequest("GET", "tsv", "users/{user}/orders", null, null, true, callback);
@@ -172,14 +179,14 @@
         this.performRequest("POST", "json", "users/{user}/orders/{orderId}/takeout", params, null, true, callback);
     };
 
-    Kt.prototype.pusherAuthenticate = function (socket, channel) {
+    Kt.prototype.pusherAuthenticate = function (socket, channel, callback) {
         var params;
         params = {
             "channel_name": channel,
             "socketId": socket
         };
         this.performRequest("POST", "json", "pusher/authenticate", params, null, true, callback);
-    }
+    };
 
     Kt.prototype.getPayouts = function (callback) {
         performRequest("GET", "tsv", "users/{user}/payouts", null, null, true, callback);
@@ -191,7 +198,7 @@
         params = {
             "type": type,
             "item": item,
-            "amount": amount
+            "amount": count
         };
         this.performRequest("POST", "json", "users/{user}/payouts", params, null, true, callback);
     };
@@ -218,11 +225,11 @@
         this.performRequest("GET", "tsv", "users/{user}/messages", null, null, true, callback);
     };
 
-    Kt.prototype.getPermissions = function(callback) {
+    Kt.prototype.getPermissions = function (callback) {
         this.performRequest("GET", "json", "permissions/{user}", null, null, true, callback);
-    }
+    };
 
-    Kt.prototype.getHistory = function(item, limit, offset, callback) {
+    Kt.prototype.getHistory = function (item, limit, offset, callback) {
         var params;
         item = (typeof item === "string") ? item : item.id;
         offset = offset || 0;
@@ -231,11 +238,11 @@
             "item": item,
             "offset": offset,
             "limit": limit
-        }
+        };
         this.performRequest("GET", "tsv", "history/{item}", params, null, false, callback);
-    }
+    };
 
-    Kt.prototype.getOrderbook = function(item, limit, summarize, mode, callback) {
+    Kt.prototype.getOrderbook = function (item, limit, summarize, mode, callback) {
         var params;
         item = (typeof item === "string") ? item : item.id;
         limit = limit || 10;
@@ -245,12 +252,12 @@
             "limit": limit,
             "mode": mode,
             "summarize": summarize
-        }
+        };
         this.performRequest("GET", "tsv", "orderbook/{item}", params, null, false, callback);
-    }
-    
+    };
+
     window.Kt = Kt;
     window.KtAuthenticators = {
         HmacAuthenticator: HmacAuthenticator
-    }
+    };
 }());
