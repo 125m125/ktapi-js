@@ -97,9 +97,18 @@
 
     function Kt(uid, tid, tkn, authenticator) {
         var user = {
-            "uid": uid,
-            "tid": tid,
-            "tkn": tkn
+                "uid": uid,
+                "tid": tid,
+                "tkn": tkn
+            },
+            permissions;
+
+        this.getPermissions = function (callback) {
+            var start = new Date();
+            performRequest("GET", "json", "permissions", {
+                uid: user.uid,
+                tid: user.tid
+            }, user.tkn, false, callback);
         };
         if (!authenticator) {
             authenticator = new HmacAuthenticator();
