@@ -6,7 +6,9 @@ export default function (uid, tid, tkn, authenticator) {
         "tid": tid,
         "tkn": tkn
     };
-
+    this.getUserID = function () {
+        return user.uid;
+    }
     this.getRequest = function (method, type, suburl, params, headers, auth) {
         var requestAuthenticator;
         if (auth) {

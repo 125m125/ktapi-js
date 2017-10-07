@@ -4,7 +4,8 @@
   "description": "A Javascript API to access kadcontrade",
   "main": "target/ktapi-full.js",
   "scripts": {
-    "prepublish": "rollup -c"
+    "prepublish": "rollup -c && rollup --config rollup.config.noPusher.js",
+    "clean": "rm -r target/"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,8 @@
   "homepage": "https://github.com/125m125/ktapi-js#readme",
   "dependencies": {
     "d3-request": "^1.0.6",
-    "jssha": "^2.3.1"
+    "jssha": "^2.3.1",
+    "pusher": "^1.5.1"
   },
   "devDependencies": {
     "rollup": "^0.50.0"

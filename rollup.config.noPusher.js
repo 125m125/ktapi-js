@@ -1,9 +1,9 @@
 export default {
-    input: 'src/full.js',
+    input: 'src/noPusher.js',
     name: 'Kt',
     output: {
-        file: 'target/ktapi-full.js',
-        format: 'umd'
+        file: 'target/ktapi-noPusher.js',
+        format: 'umd',
     },
     external: ['jsSHA','d3-request','pusher'],
     globals: {
