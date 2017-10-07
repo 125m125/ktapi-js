@@ -8,6 +8,6 @@ export default {
     external: ['jsSHA','d3-request'],
     globals: {
         'jsSHA': 'jsSHA',
-        'd3-request': 'd3-request'
+        'd3-request': 'd3'
     }
 }
