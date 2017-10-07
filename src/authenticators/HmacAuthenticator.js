@@ -1,3 +1,5 @@
+import { paramsToQuery } from '../util/paramsToQuery.js'
+
 function HmacAuthenticator() {
     this.maxSignatureOffset = 4 * 60 * 1000;
     this.hashType = "SHA-256";
