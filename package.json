@@ -1,0 +1,30 @@
+{
+  "name": "ktapi",
+  "version": "1.0.0",
+  "description": "A Javascript API to access kadcontrade",
+  "main": "target/ktapi-full.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/125m125/ktapi-js.git"
+  },
+  "keywords": [
+    "kadcon"
+  ],
+  "author": "125m125",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/125m125/ktapi-js/issues"
+  },
+  "homepage": "https://github.com/125m125/ktapi-js#readme",
+  "dependencies": {
+    "d3-request": "^1.0.6",
+    "jssha": "^2.3.1"
+  },
+  "devDependencies": {
+    "rollup": "^0.50.0"
+  }
+}

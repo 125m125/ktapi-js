@@ -1,4 +1,5 @@
-import { default as paramsToQuery } from '../util/paramsToQuery.js'
+import * as d3 from "d3-request";
+import { default as paramsToQuery } from '../util/paramsToQuery.js';
 
 var baseUrl = "https://kt.125m125.de/api/v2.0/";
 
