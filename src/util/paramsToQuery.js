@@ -1,4 +1,4 @@
-function paramsToQuery(params) {
+export default function paramsToQuery(params) {
     if (!params) {
         return params;
     }
@@ -12,5 +12,3 @@ function paramsToQuery(params) {
     }
     return result;
 }
-
-export { paramsToQuery };

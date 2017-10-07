@@ -1,4 +1,4 @@
-import { paramsToQuery } from '../util/paramsToQuery.js'
+import { default as paramsToQuery } from '../util/paramsToQuery.js'
 
 var baseUrl = "https://kt.125m125.de/api/v2.0/";
 
@@ -29,7 +29,7 @@ function performRequest(method, type, suburl, params, headers, callback) {
     request.send(method, paramsToQuery(params));
 };
 
-function Request(method, type, suburl, params, headers, user, authenticator) {
+export default function Request(method, type, suburl, params, headers, user, authenticator) {
     this.execute = function (callback) {
         if (!params) {
             params = {};
@@ -56,5 +56,3 @@ function Request(method, type, suburl, params, headers, user, authenticator) {
         performRequest(method, type, suburl, params, headers, callback);
     };
 }
-
-export { Request };

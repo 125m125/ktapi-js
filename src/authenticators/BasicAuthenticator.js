@@ -2,7 +2,7 @@
  * Authenticator which will be used for BasicAuth
  * @constructor BasicAuthenticator
  */
-function BasicAuthenticator() {
+export default function BasicAuthenticator() {
     /**
      * Function to authenticate
      * @param  {String} method  the desired method to use for the request (e.g. GET)
@@ -18,5 +18,3 @@ function BasicAuthenticator() {
         if (!headers.Authorization) headers.Authorization = "Basic " + btoa(user.tid + ':' + user.tkn);
     }
 }
-
-export { BasicAuthenticator };

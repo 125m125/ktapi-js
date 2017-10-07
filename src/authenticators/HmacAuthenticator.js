@@ -1,4 +1,4 @@
-import { paramsToQuery } from '../util/paramsToQuery.js'
+import { default as paramsToQuery } from '../util/paramsToQuery.js'
 
 function HmacAuthenticator() {
     this.maxSignatureOffset = 4 * 60 * 1000;
@@ -25,4 +25,4 @@ HmacAuthenticator.prototype.hmac = function (text, key, hashType) {
     return shaObj.getHMAC("HEX");
 };
 
-export { HmacAuthenticator };
+export default HmacAuthenticator;
