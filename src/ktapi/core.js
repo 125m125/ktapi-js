@@ -1,6 +1,7 @@
-import { default as Request } from '../requests/Request.js';
-
-export default function (uid, tid, tkn, authenticator) {
+export default function (uid, tid, tkn, requestFactory, authenticator) {
+    if (typeof requestFactory === 'undefined') {
+        throw new TypeError("missing required requestFactory");
+    }
     var user = {
         "uid": uid,
         "tid": tid,
@@ -14,7 +15,7 @@ export default function (uid, tid, tkn, authenticator) {
         if (auth) {
             requestAuthenticator = authenticator;
         }
-        return new Request(method, type, suburl, params, headers, user, requestAuthenticator);
+        return requestFactory.create(method, type, suburl, params, headers, user, requestAuthenticator);
     };
     this.performRequest = function (method, type, suburl, params, headers, auth, callback) {
         return this.getRequest(method, type, suburl, params, headers, auth).execute(callback);

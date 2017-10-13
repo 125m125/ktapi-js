@@ -1,4 +1,7 @@
-import {default as KtApi} from './ktapi/core.js';
+export {default as Request} from './requests/Request.js';
+export {default as createRequestFactory} from './requests/RequestFactory.js';
+
+export {default as KtApi} from './ktapi/core.js';
 //? if (typeof NO_HISTORY === 'undefined')
 import './ktapi/history.js';
 //? if (typeof NO_ITEMS === 'undefined')
@@ -13,6 +16,11 @@ import './ktapi/payouts.js';
 import './ktapi/permissions.js';
 //? if (typeof NO_TRADES === 'undefined')
 import './ktapi/trades.js';
+
+//? if (typeof NO_REQUEST_FACTORY === 'undefined') {
+//? if (typeof NO_D3_REQUEST_FACTORY === 'undefined')
+export {default as D3RequestFactory} from './requests/D3RequestFactory.js'
+//? }
 
 //? if (typeof NO_AUTHENTICATOR === 'undefined') {
 //? if (typeof NO_BASIC_AUTHENTICATOR === 'undefined')

@@ -1,34 +1,6 @@
-import * as d3 from "d3-request";
 import { default as paramsToQuery } from '../util/paramsToQuery.js';
 
 var baseUrl = "https://kt.125m125.de/api/v2.0/";
-
-function performRequest(method, type, suburl, params, headers, callback) {
-    var url, request;
-    if (method === "GET") {
-        url = baseUrl + suburl + "?" + paramsToQuery(params);
-        params = null;
-    } else {
-        url = baseUrl + suburl;
-        if (!headers["Content-Type"]) {
-            headers["Content-Type"] = "application/x-www-form-urlencoded";
-        }
-    }
-    request = d3[type](url);
-    Object.keys(headers).forEach(function (key) {
-        request.header(key, headers[key]);
-    });
-    request.on("error", function (error) {
-        var errorTarget = error.target;
-        try {
-            return callback(JSON.parse(errorTarget.response));
-        } catch (e) { }
-        callback(errorTarget);
-    }).on("load", function (data) {
-        callback(false, data);
-    });
-    request.send(method, paramsToQuery(params));
-};
 
 export default function Request(method, type, suburl, params, headers, user, authenticator) {
     this.execute = function (callback) {
@@ -54,6 +26,16 @@ export default function Request(method, type, suburl, params, headers, user, aut
         if (authenticator) {
             authenticator.authenticate(method, type, suburl, params, headers, user);
         }
-        performRequest(method, type, suburl, params, headers, callback);
+        var url;
+        if (method === "GET") {
+            url = baseUrl + suburl + "?" + paramsToQuery(params);
+            params = null;
+        } else {
+            url = baseUrl + suburl;
+            if (!headers["Content-Type"]) {
+                headers["Content-Type"] = "application/x-www-form-urlencoded";
+            }
+        }
+        this.performRequest(method, type, url, params, headers, callback);
     };
 }
