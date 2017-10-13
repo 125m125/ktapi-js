@@ -1,5 +1,5 @@
 export default {
-    input: 'src/full.js',
+    input: 'src/index.js',
     name: 'Kt',
     output: {
         file: 'target/ktapi-full.js',
