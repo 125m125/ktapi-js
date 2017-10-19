@@ -4,11 +4,11 @@
   "description": "A Javascript API to access kadcontrade",
   "main": "target/ktapi-full.js",
   "scripts": {
-    "prepublish": "npm run default-rollup && npm run nopusher-rollup",
-    "clean": "rm -r target/",
+    "prepublish": "npm run default-rollup",
+    "clean": "rm -rf target/ && rm -f src/processedIndex.js",
     "default-rollup": "rollup -c",
-    "nopusher-rollup": "metascript src/index.js -NO_PUSHER >src/processedp.js && rollup -c -i src/processedp.js -o target/ktapi-nopusher.js && rm src/processedp.js",
-    "custom-rollup": "metascript src/index.js $META_PARAMS >src/processedc.js && rollup -c -i src/processedc.js -o target/ktapi-custom.js && rm src/processedc.js"
+    "custom-rollup": "metascript src/index.js $META_PARAMS >src/processedIndex.js && rollup -c -i src/processedIndex.js -o target/${FILENAME:-ktapi-custom.js} && rm src/processedIndex.js",
+    "interactive-rollup": "node interactiveBuild.js && META_PARAMS=$(cat target/settings) npm run custom-rollup"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "pusher": "^1.5.1"
   },
   "devDependencies": {
+    "inquirer": "^3.3.0",
     "metascript": "^1.0.0",
     "rollup": "^0.50.0"
   }

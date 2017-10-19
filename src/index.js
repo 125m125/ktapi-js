@@ -18,17 +18,17 @@ import './ktapi/permissions.js';
 import './ktapi/trades.js';
 
 //? if (typeof NO_REQUEST_FACTORY === 'undefined') {
-//? if (typeof NO_D3_REQUEST_FACTORY === 'undefined')
+//? if (typeof NO_D3_REQUEST_FACTORY === 'undefined' && typeof NOLIB_D3 === 'undefined')
 export {default as D3RequestFactory} from './requests/D3RequestFactory.js'
 //? }
 
 //? if (typeof NO_AUTHENTICATOR === 'undefined') {
 //? if (typeof NO_BASIC_AUTHENTICATOR === 'undefined')
 export {default as BasicAuthenticator} from './authenticators/BasicAuthenticator.js'
-//? if (typeof NO_HMAC_AUTHENTICATOR === 'undefined')
+//? if (typeof NO_HMAC_AUTHENTICATOR === 'undefined' && typeof NOLIB_JSSHA === 'undefined' )
 export {default as HmacAuthenticator} from './authenticators/HmacAuthenticator.js'
 //? }
-//? if (typeof NO_PUSHER === 'undefined') {
+//? if (typeof NO_PUSHER === 'undefined' && typeof NOLIB_PUSHER === 'undefined') {
 import './pusher/pusherCore.js';
 import './pusher/pusherAuth.js';
 import './pusher/pusherSubscribtions.js';
