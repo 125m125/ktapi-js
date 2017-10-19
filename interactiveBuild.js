@@ -102,6 +102,8 @@ function compile() {
             result += ' -' + key + '=' + settings[key];
         }
     }
-    fs.mkdirSync('./target');
+    if (!fs.existsSync('./target')) {
+        fs.mkdirSync('./target');
+    }
     fs.writeFileSync('./target/settings', result);
 }
