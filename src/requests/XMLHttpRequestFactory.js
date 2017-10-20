@@ -25,7 +25,7 @@ function performRequest(method, type, url, params, headers, callback) {
                 try {
                     response = JSON.parse(this.responseText);
                 } catch (e) {
-                    return callback(this.responseText);
+                    return callback(this);
                 }
                 if(this.status >= 400) return callback(response);
                 return callback(null, ((type === 'tsv')? response.entries : response));
