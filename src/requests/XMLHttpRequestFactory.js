@@ -28,7 +28,7 @@ function performRequest(method, type, url, params, headers, callback) {
                     return callback(this.responseText);
                 }
                 if(this.status >= 400) return callback(response);
-                return callback(null, response);
+                return callback(null, ((type === 'tsv')? response.entries : response));
             }
         };
         request.onerror = function(e) {
