@@ -20,6 +20,8 @@ import './ktapi/trades.js';
 //? if (typeof NO_REQUEST_FACTORY === 'undefined') {
 //? if (typeof NO_D3_REQUEST_FACTORY === 'undefined' && typeof NOLIB_D3 === 'undefined')
 export {default as D3RequestFactory} from './requests/D3RequestFactory.js'
+//? if (typeof NO_XMLHTTP_REQUEST_FACTORY === 'undefined' && typeof NOLIB_XMLHTTPREQUEST === 'undefined')
+export {default as XMLHttpRequestFactory} from './requests/XMLHttpRequestFactory.js'
 //? }
 
 //? if (typeof NO_AUTHENTICATOR === 'undefined') {
