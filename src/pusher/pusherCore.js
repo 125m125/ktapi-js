@@ -1,5 +1,5 @@
 import { default as KtApi } from '../ktapi/core.js';
-import Pusher from 'pusher';
+import Pusher from 'pusher-js';
 import './pusherAuth';
 
 KtApi.prototype.pusherSubscribe = function (channelname, callback) {
@@ -24,7 +24,14 @@ KtApi.prototype.pusherSubscribe = function (channelname, callback) {
             }
         });
     }
-    this.pusher.subscribe(channelname).bind('update', function(data) {
+    this.pusher.subscribe(channelname).bind('update', function (data) {
         callback(false, JSON.parse(data));
     });
+}
+
+KtApi.prototype.pusherDisconnect = function () {
+    if (this.pusher) {
+        this.pusher.disconnect();
+        this.pusher = null;
+    }
 }
