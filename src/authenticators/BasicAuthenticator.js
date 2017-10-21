@@ -1,3 +1,5 @@
+import btoa from "btoa";
+
 /**
  * Authenticator which will be used for BasicAuth
  * @constructor BasicAuthenticator

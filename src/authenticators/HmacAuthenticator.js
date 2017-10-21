@@ -1,4 +1,4 @@
-import jsSHA from 'jsSHA';
+import jsSHA from 'jssha';
 import { default as paramsToQuery } from '../util/paramsToQuery.js'
 
 function HmacAuthenticator() {

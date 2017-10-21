@@ -1,6 +1,15 @@
-import XMLHttpRequest from "XMLHttpRequest";
+import { default as ImportedXMLHttpRequest } from "xmlhttprequest";
 import { default as paramsToQuery } from '../util/paramsToQuery.js';
-import { default as createRequestFactory} from './RequestFactory.js';
+import { default as createRequestFactory } from './RequestFactory.js';
+
+// fix differences between node-xmlhttprequest and browser-XMLHttpRequest
+var XMLHttpRequest;
+if (ImportedXMLHttpRequest && ImportedXMLHttpRequest.XMLHttpRequest) {
+    XMLHttpRequest = ImportedXMLHttpRequest.XMLHttpRequest;
+    XMLHttpRequest.DONE = 4;
+} else {
+    XMLHttpRequest = ImportedXMLHttpRequest;
+}
 
 /**
  * Function which performs XMLHttpRequest based on given params

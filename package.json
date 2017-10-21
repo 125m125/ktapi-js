@@ -4,7 +4,7 @@
   "description": "A Javascript API to access kadcontrade",
   "main": "target/ktapi-full.js",
   "scripts": {
-    "prepublish": "npm run default-rollup",
+    "prepare": "npm run default-rollup",
     "clean": "rm -rf target/ && rm -f src/processedIndex.js",
     "default-rollup": "rollup -c",
     "custom-rollup": "metascript src/index.js $META_PARAMS >src/processedIndex.js && rollup -c -i src/processedIndex.js -o target/${FILENAME:-ktapi-custom.js} && rm src/processedIndex.js",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/125m125/ktapi-js#readme",
   "dependencies": {
+    "btoa": "^1.1.2",
     "d3-request": "^1.0.6",
     "jssha": "^2.3.1",
     "pusher": "^1.5.1",

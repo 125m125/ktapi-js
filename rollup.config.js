@@ -5,11 +5,12 @@ export default {
         file: 'target/ktapi-full.js',
         format: 'umd'
     },
-    external: ['jsSHA','d3-request','pusher', 'XMLHttpRequest'],
+    external: ['jssha','d3-request','pusher', 'xmlhttprequest', 'btoa'],
     globals: {
-        'jsSHA': 'jsSHA',
+        'jssha': 'jsSHA',
         'd3-request': 'd3',
         'pusher': 'Pusher',
-        'XMLHttpRequest': 'XMLHttpRequest'
+        'xmlhttprequest': 'XMLHttpRequest',
+        'btoa':'btoa'
     }
 }
