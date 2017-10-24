@@ -5,6 +5,7 @@
   "main": "target/ktapi-full.js",
   "scripts": {
     "prepare": "npm run default-rollup",
+    "test": "babel-tape-runner test/**/*Test.js",
     "clean": "rm -rf target/ && rm -f src/processedIndex.js",
     "default-rollup": "rollup -c",
     "custom-rollup": "metascript src/index.js $META_PARAMS >src/processedIndex.js && rollup -c -i src/processedIndex.js -o target/${FILENAME:-ktapi-custom.js} && rm src/processedIndex.js",
@@ -31,8 +32,12 @@
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-tape-runner": "^2.0.1",
     "inquirer": "^3.3.0",
     "metascript": "^1.0.0",
-    "rollup": "^0.50.0"
+    "rollup": "^0.50.0",
+    "sinon": "^4.0.1",
+    "tape": "^4.8.0"
   }
 }

@@ -12,10 +12,10 @@ function HmacAuthenticator() {
             if (last < new Date().getTime() - this.maxSignatureOffset) {
                 last = new Date().getTime() + this.maxSignatureOffset;
             }
-            params.timestamp = last + this.dTime;
         } else {
-            params.timestamp = (new Date()).getTime() + this.dTime;
+            last = new Date().getTime() + this.maxSignatureOffset;
         }
+        params.timestamp = last + this.dTime;
         params.signature = this.hmac(paramsToQuery(params), user.tkn, this.hashType);
     };
 }
