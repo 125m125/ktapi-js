@@ -26,6 +26,18 @@ tape("HmacAuthenticator reuses time if in limit", function (test) {
     test.end();
 });
 
+tape("HmacAuthenticator handles multiple users", function (test) {
+    var uut = new HmacAuthenticator(),
+        params = {},
+        headers = {};
+    sinon.useFakeTimers(new Date(946684800));
+    uut.authenticate("GET", "tsv", "/ping", {}, {}, { "uid": "2", "tid": "4", "tkn": "8" });
+    uut.authenticate("GET", "tsv", "/ping", params, headers, { "uid": "1", "tid": "2", "tkn": "4" });
+    test.deepEquals(params, { tid: "2", timestamp: 946924800, signature: "435b0fa9fb69286007f9678e88ea65af8dcacc379d4a14c1cd7fa36ca3ff3ba7" });
+    test.deepEqual(headers, {});
+    test.end();
+});
+
 tape("HmacAuthenticator uses new time if out of limit", function (test) {
     var uut = new HmacAuthenticator(),
         params = {},
