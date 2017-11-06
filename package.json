@@ -10,7 +10,9 @@
     "default-rollup": "rollup -c && FILENAME=ktapi-full npm run minimize",
     "minimize": "uglifyjs -m -b beautify=false target/${FILENAME:-ktapi-custom}.js -o target/${FILENAME:-ktapi-custom}.min.js",
     "custom-rollup": "metascript src/index.js $META_PARAMS >src/processedIndex.js && rollup -c -i src/processedIndex.js -o target/${FILENAME:-ktapi-custom}.js && rm src/processedIndex.js && npm run minimize",
-    "interactive-rollup": "node interactiveBuild.js && META_PARAMS=$(cat target/settings) npm run custom-rollup"
+    "interactive-rollup": "node interactiveBuild.js && META_PARAMS=$(cat target/settings) npm run custom-rollup",
+    "greenkeeper:update-lockfile": "greenkeeper-lockfile-update",
+    "greenkeeper:upload-lockfile": "greenkeeper-lockfile-upload"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "babel-tape-runner": "^2.0.1",
+    "greenkeeper-lockfile": "^1.12.0",
     "inquirer": "^3.3.0",
     "metascript": "^1.0.0",
     "rollup": "^0.50.0",
