@@ -1,9 +1,14 @@
 language: node_js
 node_js:
 - node
-install: npm install
+install: 
+- npm install
+- npm install -g codecov
 before_script:
 - npm run greenkeeper:update-lockfile
+script:
+- ISTANBUL_EXTRA="--reporter lcovonly" npm run coverage
+- codecov
 after_script:
 - npm run greenkeeper:upload-lockfile
 deploy:
