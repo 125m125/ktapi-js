@@ -4,5 +4,8 @@ parserOptions:
 env:
     browser: true
 
+rules:
+    semi: [2, "always"]
+
 extends:
     "eslint:recommended"
