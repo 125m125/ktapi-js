@@ -13,7 +13,7 @@
     "interactive-rollup": "node interactiveBuild.js && META_PARAMS=$(cat target/settings) npm run custom-rollup",
     "greenkeeper:update-lockfile": "greenkeeper-lockfile-update",
     "greenkeeper:upload-lockfile": "greenkeeper-lockfile-upload",
-    "coverage": "babel-node -- ./node_modules/istanbul/lib/cli cover --include-all-sources true -x \"target/*\" -x \"src/index.js\" -x \"interactiveBuild.js\" -x \"_*.js\" node_modules/tape/bin/tape ./test/**/*Test.js ${ISTANBUL_EXTRA}"
+    "coverage": "babel-node -- ./node_modules/istanbul/lib/cli cover --include-all-sources true -x \"target/*\" -x \"src/index.js\" -x \"rollup.config.js\" -x \"interactiveBuild.js\" -x \"_*.js\" node_modules/tape/bin/tape ./test/**/*Test.js ${ISTANBUL_EXTRA}"
   },
   "repository": {
     "type": "git",
