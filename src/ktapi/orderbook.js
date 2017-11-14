@@ -1,4 +1,4 @@
-import { default as KtApi } from './core.js';
+import KtApi from './core.js';
 
 KtApi.prototype.getOrderbook = function (item, limit, summarize, mode, callback) {
     var params;
@@ -11,5 +11,5 @@ KtApi.prototype.getOrderbook = function (item, limit, summarize, mode, callback)
         "mode": mode,
         "summarize": summarize
     };
-    this.performRequest("GET", "tsv", "orderbook/{item}", params, null, false, callback);
+    return this.performRequest("GET", "tsv", "orderbook/{item}", params, null, false, callback);
 };

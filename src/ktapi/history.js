@@ -1,4 +1,4 @@
-import { default as KtApi } from './core.js';
+import KtApi from './core.js';
 
 KtApi.prototype.getHistory = function (item, limit, offset, callback) {
     var params;
@@ -10,5 +10,5 @@ KtApi.prototype.getHistory = function (item, limit, offset, callback) {
         "offset": offset,
         "limit": limit
     };
-    this.performRequest("GET", "tsv", "history/{item}", params, null, false, callback);
+    return this.performRequest("GET", "tsv", "history/{item}", params, null, false, callback);
 };

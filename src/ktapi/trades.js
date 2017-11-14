@@ -1,7 +1,7 @@
-import { default as KtApi } from './core.js';
+import KtApi from './core.js';
 
 KtApi.prototype.getTrades = function (callback) {
-    this.performRequest("GET", "tsv", "users/{user}/orders", null, null, true, callback);
+    return this.performRequest("GET", "tsv", "users/{user}/orders", null, null, true, callback);
 };
 
 KtApi.prototype.createTrade = function (buyOrSell, item, count, price, callback) {
@@ -13,15 +13,15 @@ KtApi.prototype.createTrade = function (buyOrSell, item, count, price, callback)
         "amount": count,
         "price": price
     };
-    this.performRequest("POST", "json", "users/{user}/orders", params, null, true, callback);
+    return this.performRequest("POST", "json", "users/{user}/orders", params, null, true, callback);
 };
 
 KtApi.prototype.buy = function (item, count, price, callback) {
-    this.createTrade(true, item, count, price, callback);
+    return this.createTrade(true, item, count, price, callback);
 };
 
 KtApi.prototype.sell = function (item, count, price, callback) {
-    this.createTrade(false, item, count, price, callback);
+    return this.createTrade(false, item, count, price, callback);
 };
 
 KtApi.prototype.cancelTrade = function (trade, callback) {
@@ -30,7 +30,7 @@ KtApi.prototype.cancelTrade = function (trade, callback) {
     params = {
         "orderId": trade
     };
-    this.performRequest("POST", "json", "users/{user}/orders/{orderId}/cancel", params, null, true, callback);
+    return this.performRequest("POST", "json", "users/{user}/orders/{orderId}/cancel", params, null, true, callback);
 };
 
 KtApi.prototype.takeoutTrade = function (trade, callback) {
@@ -39,5 +39,5 @@ KtApi.prototype.takeoutTrade = function (trade, callback) {
     params = {
         "orderId": trade
     };
-    this.performRequest("POST", "json", "users/{user}/orders/{orderId}/takeout", params, null, true, callback);
+    return this.performRequest("POST", "json", "users/{user}/orders/{orderId}/takeout", params, null, true, callback);
 };
