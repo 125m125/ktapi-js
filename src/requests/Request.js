@@ -1,6 +1,5 @@
-import {
-    default as paramsToQuery
-} from '../util/paramsToQuery.js';
+import paramsToQuery from '../util/paramsToQuery.js';
+import replacePathParameters from '../util/replacePathParameters';
 
 var baseUrl = "https://kt.125m125.de/api/v2.0/";
 
@@ -12,19 +11,7 @@ export default function Request(method, type, suburl, params, headers, user, aut
         if (!headers) {
             headers = {};
         }
-        suburl = suburl.replace(/\{[a-zA-Z0-9]+?\}/g, function (key) {
-            if (key === "{user}") {
-                return user.uid;
-            }
-            var key2 = key.substring(1, key.length - 1),
-                result;
-            if (params.hasOwnProperty(key2) && params[key2] !== undefined) {
-                result = params[key2];
-                delete params[key2];
-                return result;
-            }
-            return key;
-        });
+        suburl = replacePathParameters(suburl, params, user);
         if (authenticator) {
             authenticator.authenticate(method, type, suburl, params, headers, user);
         }
