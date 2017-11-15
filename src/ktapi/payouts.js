@@ -1,7 +1,7 @@
-import { default as KtApi } from './core.js';
+import KtApi from './core.js';
 
 KtApi.prototype.getPayouts = function (callback) {
-    this.performRequest("GET", "tsv", "users/{user}/payouts", null, null, true, callback);
+    return this.performRequest("GET", "tsv", "users/{user}/payouts", null, null, true, callback);
 };
 
 KtApi.prototype.createPayout = function (type, item, count, callback) {
@@ -12,7 +12,7 @@ KtApi.prototype.createPayout = function (type, item, count, callback) {
         "item": item,
         "amount": count
     };
-    this.performRequest("POST", "json", "users/{user}/payouts", params, null, true, callback);
+    return this.performRequest("POST", "json", "users/{user}/payouts", params, null, true, callback);
 };
 
 KtApi.prototype.cancelPayout = function (payout, callback) {
@@ -21,7 +21,7 @@ KtApi.prototype.cancelPayout = function (payout, callback) {
     params = {
         "payoutid": payout
     };
-    this.performRequest("POST", "json", "users/{user}/payouts/cancel", params, null, true, callback);
+    return this.performRequest("POST", "json", "users/{user}/payouts/cancel", params, null, true, callback);
 };
 
 KtApi.prototype.takeoutPayout = function (payout, callback) {
@@ -30,5 +30,5 @@ KtApi.prototype.takeoutPayout = function (payout, callback) {
     params = {
         "payoutid": payout
     };
-    this.performRequest("POST", "json", "users/{user}/payouts/takeout", params, null, true, callback);
+    return this.performRequest("POST", "json", "users/{user}/payouts/takeout", params, null, true, callback);
 };

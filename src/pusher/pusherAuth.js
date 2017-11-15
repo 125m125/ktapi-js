@@ -1,4 +1,4 @@
-import { default as KtApi } from '../ktapi/core.js';
+import KtApi from '../ktapi/core.js';
 
 KtApi.prototype.pusherAuthenticate = function (socket, channel, callback) {
     var params;
@@ -7,5 +7,5 @@ KtApi.prototype.pusherAuthenticate = function (socket, channel, callback) {
         "channel_name": channel,
         "socketId": socket
     };
-    this.performRequest("POST", "json", "pusher/authenticate?user={user}", params, null, true, callback);
+    return this.performRequest("POST", "json", "pusher/authenticate?user={user}", params, null, true, callback);
 };
