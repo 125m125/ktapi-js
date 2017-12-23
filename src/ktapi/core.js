@@ -9,7 +9,7 @@ export default function (uid, tid, tkn, requestFactory, authenticator) {
     };
     this.getUserID = function () {
         return user.uid;
-    }
+    };
     this.getRequest = function (method, type, suburl, params, headers, auth) {
         var requestAuthenticator;
         if (auth) {

@@ -18,5 +18,5 @@ export default function BasicAuthenticator() {
     this.authenticate = function (method, type, suburl, params, headers, user) {
         // set header for authorization
         if (!headers.Authorization) headers.Authorization = "Basic " + btoa(user.tid + ':' + user.tkn);
-    }
+    };
 }

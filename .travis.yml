@@ -1,16 +1,25 @@
 language: node_js
 node_js:
 - node
+
+env:
+  global:
+    secure: etVeWNJqXx8o720t/z6M27vgf51OkOoYk6+k++FXzAO51oaDgfB9CvcoidSOJkDf5JLDc5EWsoQzoKyVG2u9MDhtAJd/SbmSivPyengCxK3zLHWr8lR3xg8CaMisl0hck14AZL6K2yDpueN8I7fNvRObrApWFmZx+N1r81QolsxZf5wzAy6PpIMJCaDJ31H9rpJITkweT3CNjzkCedPKMhrsZpA/lOviXQrtAchWewt+Q4UUXGgzwrff4NPVPIzbusYwOJT6ZJBXMuEe+1G+3lxVxi0X3S6svRkm70CODYfZXxEB8c3nQkL0nBOJA6ZMy/kRcYpG+qxsQa/+jkkeicAp4PGIlAgKnGQwmeeKUMbEw1Sg3wQGJ5vagUcvE67kgXR2UfH7QzUfE0biivAbujUqRM4Rhhikttygg3mSyYBnSAS0DeSgdjyAS3G1kG5OcXq8bRbc/pnJoTfz/HPBXiWZYXfI+9A/8n0kS2SEBP7IawTIIjeOOCxiDvqAzx3FtW6e3jUFDl0FaNXG15ZBKUVf3fhB4f0thYt2tPmncScd3USrcKHhzsTrw/ZrtALJLFzv64VPUFhnSLESAC/HbE+iTogMKk5BINjxKQ97fHV98iGBVZ4oLxbOmgS2oAugbhAJr76zGyruuPhPspGMx7RLdgMen2H2n4GJ2KrQb2c=
+  matrix:
+    - TEST_SUITE=test
+    - TEST_SUITE=checkstyle
+
 install: 
 - npm install
 - npm install -g codecov
 before_script:
 - npm run greenkeeper:update-lockfile
 script:
-- ISTANBUL_EXTRA="--reporter lcovonly" npm run coverage
-- codecov
+- if [ "$TEST_SUITE" == "test" ]; then ISTANBUL_EXTRA="--reporter lcovonly" npm run coverage && codecov; fi
+- if [ "$TEST_SUITE" == "checkstyle" ]; then npm run checkstyle; fi
 after_script:
 - npm run greenkeeper:upload-lockfile
+
 deploy:
   provider: releases
   api_key:
@@ -21,6 +30,3 @@ deploy:
   on:
     repo: 125m125/ktapi-js
     tags: true
-env:
-  global:
-    secure: etVeWNJqXx8o720t/z6M27vgf51OkOoYk6+k++FXzAO51oaDgfB9CvcoidSOJkDf5JLDc5EWsoQzoKyVG2u9MDhtAJd/SbmSivPyengCxK3zLHWr8lR3xg8CaMisl0hck14AZL6K2yDpueN8I7fNvRObrApWFmZx+N1r81QolsxZf5wzAy6PpIMJCaDJ31H9rpJITkweT3CNjzkCedPKMhrsZpA/lOviXQrtAchWewt+Q4UUXGgzwrff4NPVPIzbusYwOJT6ZJBXMuEe+1G+3lxVxi0X3S6svRkm70CODYfZXxEB8c3nQkL0nBOJA6ZMy/kRcYpG+qxsQa/+jkkeicAp4PGIlAgKnGQwmeeKUMbEw1Sg3wQGJ5vagUcvE67kgXR2UfH7QzUfE0biivAbujUqRM4Rhhikttygg3mSyYBnSAS0DeSgdjyAS3G1kG5OcXq8bRbc/pnJoTfz/HPBXiWZYXfI+9A/8n0kS2SEBP7IawTIIjeOOCxiDvqAzx3FtW6e3jUFDl0FaNXG15ZBKUVf3fhB4f0thYt2tPmncScd3USrcKHhzsTrw/ZrtALJLFzv64VPUFhnSLESAC/HbE+iTogMKk5BINjxKQ97fHV98iGBVZ4oLxbOmgS2oAugbhAJr76zGyruuPhPspGMx7RLdgMen2H2n4GJ2KrQb2c=

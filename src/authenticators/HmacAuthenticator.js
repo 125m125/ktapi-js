@@ -1,5 +1,5 @@
 import jsSHA from 'jssha';
-import { default as paramsToQuery } from '../util/paramsToQuery.js'
+import { default as paramsToQuery } from '../util/paramsToQuery.js';
 
 function HmacAuthenticator() {
     this.maxSignatureOffset = 4 * 60 * 1000;

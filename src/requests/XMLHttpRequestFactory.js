@@ -55,6 +55,6 @@ function performRequest(method, type, url, params, headers, callback) {
     } catch (e) {
         callback(e, null);
     }
-};
+}
 
 export default createRequestFactory(performRequest);
