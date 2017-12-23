@@ -1,16 +1,23 @@
 language: node_js
 node_js:
 - node
+
+env:
+  matrix:
+    - TEST_SUITE=test
+    - TEST_SUITE=checkstyle
+
 install: 
 - npm install
 - npm install -g codecov
 before_script:
 - npm run greenkeeper:update-lockfile
 script:
-- ISTANBUL_EXTRA="--reporter lcovonly" npm run coverage
-- codecov
+- if [ "$TEST_SUITE" == "test" ]; then ISTANBUL_EXTRA="--reporter lcovonly" npm run coverage && codecov fi
+- if [ "$TEST_SUITE" == "checkstyle" ]; then npm run checkstyle fi
 after_script:
 - npm run greenkeeper:upload-lockfile
+
 deploy:
   provider: releases
   api_key:
