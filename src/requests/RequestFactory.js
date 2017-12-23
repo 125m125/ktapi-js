@@ -6,6 +6,6 @@ export default function createRequestFactory(performRequest) {
             var request = new Request(method, type, suburl, params, headers, user, authenticator);
             request.performRequest = performRequest;
             return request;
-        }
-    }
+        };
+    };
 }

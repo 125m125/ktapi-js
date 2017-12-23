@@ -10,14 +10,16 @@ function performRequest(method, type, url, params, headers, callback) {
     });
     request.on("error", function (error) {
         var errorTarget = error.target;
-        try {
-            return callback(JSON.parse(errorTarget.response));
-        } catch (e) { }
+        try{
+            errorTarget = JSON.parse(errorTarget.response);
+        } catch (e) {
+            // parse failed -> call with unparsed errorTarget
+        }
         callback(errorTarget);
     }).on("load", function (data) {
         callback(false, data);
     });
     request.send(method, paramsToQuery(params));
-};
+}
 
 export default createRequestFactory(performRequest);

@@ -1,4 +1,4 @@
-import { default as BasicAuthenticator } from "../../src/authenticators/BasicAuthenticator"
+import { default as BasicAuthenticator } from "../../src/authenticators/BasicAuthenticator";
 import tape from "tape";
 
 tape("BasicAuthenticator adds correct header", function (test) {
