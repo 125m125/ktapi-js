@@ -43,7 +43,7 @@
     "inquirer": "^4.0.0",
     "istanbul": "^1.1.0-alpha.1",
     "metascript": "^1.0.0",
-    "rollup": "^0.52.0",
+    "rollup": "^0.53.0",
     "sinon": "^4.1.2",
     "tape": "^4.8.0",
     "uglify-js": "^3.1.9"
