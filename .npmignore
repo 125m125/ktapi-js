@@ -1,0 +1,15 @@
+.github
+coverage
+node_modules/
+
+src/processed*.js
+test
+.babelrc
+.eslintrc
+.gitignore
+.npmignore
+.travis.yml
+codecov.yml
+interactiveBuild.js
+LICENSE
+rollup.config.js

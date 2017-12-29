@@ -1,6 +1,6 @@
 {
   "name": "ktapi",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "A Javascript API to access kadcontrade",
   "main": "target/ktapi-full.js",
   "scripts": {
