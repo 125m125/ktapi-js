@@ -45,7 +45,7 @@
     "inquirer": "5.0.0",
     "istanbul": "1.1.0-alpha.1",
     "metascript": "1.0.0",
-    "rollup": "0.53.3",
+    "rollup": "0.54.1",
     "sinon": "4.1.4",
     "tape": "4.8.0",
     "uglify-js": "3.3.5"
