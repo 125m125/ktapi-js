@@ -46,7 +46,7 @@
     "istanbul": "1.1.0-alpha.1",
     "metascript": "1.0.0",
     "rollup": "0.54.1",
-    "sinon": "4.1.6",
+    "sinon": "4.2.0",
     "tape": "4.8.0",
     "uglify-js": "3.3.7"
   }
