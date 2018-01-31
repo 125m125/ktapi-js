@@ -2,35 +2,35 @@ export {default as Request} from './requests/Request.js';
 export {default as createRequestFactory} from './requests/RequestFactory.js';
 
 export {default as KtApi} from './ktapi/core.js';
-//? if (typeof NO_HISTORY === 'undefined')
+//? if (HISTORY)
 import './ktapi/history.js';
-//? if (typeof NO_ITEMS === 'undefined')
+//? if (ITEMS)
 import './ktapi/items.js';
-//? if (typeof NO_MESSAGES === 'undefined')
+//? if (MESSAGES)
 import './ktapi/messages.js';
-//? if (typeof NO_ORDERBOOK === 'undefined')
+//? if (ORDERBOOK)
 import './ktapi/orderbook.js';
-//? if (typeof NO_PAYOUTS === 'undefined')
+//? if (PAYOUTS)
 import './ktapi/payouts.js';
-//? if (typeof NO_PERMISSIONS === 'undefined')
+//? if (PERMISSIONS)
 import './ktapi/permissions.js';
-//? if (typeof NO_TRADES === 'undefined')
+//? if (TRADES)
 import './ktapi/trades.js';
 
-//? if (typeof NO_REQUEST_FACTORY === 'undefined') {
-//? if (typeof NO_D3_REQUEST_FACTORY === 'undefined' && typeof NOLIB_D3 === 'undefined')
+//? if (REQUEST_FACTORIES) {
+//? if (D3_REQUEST_FACTORY)
 export {default as D3RequestFactory} from './requests/D3RequestFactory.js'
-//? if (typeof NO_XMLHTTP_REQUEST_FACTORY === 'undefined' && typeof NOLIB_XMLHTTPREQUEST === 'undefined')
+//? if (XML_HTTP_REQUEST_FACTORY)
 export {default as XMLHttpRequestFactory} from './requests/XMLHttpRequestFactory.js'
 //? }
 
-//? if (typeof NO_AUTHENTICATOR === 'undefined') {
-//? if (typeof NO_BASIC_AUTHENTICATOR === 'undefined')
+//? if (AUTHENTICATORS) {
+//? if (BASIC_AUTHENTICATOR)
 export {default as BasicAuthenticator} from './authenticators/BasicAuthenticator.js'
-//? if (typeof NO_HMAC_AUTHENTICATOR === 'undefined' && typeof NOLIB_JSSHA === 'undefined' )
+//? if (HMAC_AUTHENTICATOR)
 export {default as HmacAuthenticator} from './authenticators/HmacAuthenticator.js'
 //? }
-//? if (typeof NO_PUSHER === 'undefined' && typeof NOLIB_PUSHER === 'undefined') {
+//? if (PUSHER) {
 import './pusher/pusherCore.js';
 import './pusher/pusherAuth.js';
 import './pusher/pusherSubscribtions.js';
