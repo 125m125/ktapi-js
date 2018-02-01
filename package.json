@@ -43,7 +43,7 @@
     "greenkeeper-lockfile": "1.13.2",
     "inquirer": "5.0.1",
     "istanbul": "1.1.0-alpha.1",
-    "rollup": "0.55.1",
+    "rollup": "0.55.2",
     "rollup-plugin-spl": "0.0.5",
     "sinon": "4.2.1",
     "tape": "4.8.0",
