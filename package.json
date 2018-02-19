@@ -42,7 +42,7 @@
     "eslint": "4.18.0",
     "greenkeeper-lockfile": "1.13.2",
     "istanbul": "1.1.0-alpha.1",
-    "rollup": "0.56.1",
+    "rollup": "0.56.2",
     "rollup-plugin-spl": "0.0.5",
     "sinon": "4.2.3",
     "tape": "4.8.0",
