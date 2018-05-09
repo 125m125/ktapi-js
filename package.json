@@ -40,7 +40,7 @@
     "babel-preset-env": "1.6.1",
     "babel-tape-runner": "2.0.1",
     "eslint": "4.19.1",
-    "greenkeeper-lockfile": "1.14.0",
+    "greenkeeper-lockfile": "1.15.0",
     "istanbul": "1.1.0-alpha.1",
     "rollup": "0.58.2",
     "rollup-plugin-spl": "0.0.5",
