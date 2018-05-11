@@ -41,7 +41,7 @@
         "istanbul": "1.1.0-alpha.1",
         "rollup": "0.58.2",
         "rollup-plugin-spl": "0.0.5",
-        "sinon": "5.0.4",
+        "sinon": "5.0.7",
         "tape": "4.9.0",
         "uglify-js": "3.3.24"
     }
