@@ -1,51 +1,48 @@
 {
-  "name": "ktapi",
-  "version": "0.0.2",
-  "description": "A Javascript API to access kadcontrade",
-  "main": "target/ktapi-full.js",
-  "scripts": {
-    "prepare": "npm run rollup",
-    "test": "babel-tape-runner test/**/*Test.js",
-    "clean": "rm -rf target/ && rm -rf coverage/",
-    "rollup": "rollup -c --environment CUSTOM=\"$CUSTOM\",CONFIG=\"$CONFIG\" && if [ -z \"$CUSTOM$CONFIG\" ]; then FILENAME=ktapi-full; fi; FILENAME=\"$FILENAME\" npm run minimize",
-    "minimize": "uglifyjs -m -b beautify=false target/${FILENAME:-ktapi-custom}.js -o target/${FILENAME:-ktapi-custom}.min.js",
-    "interactive-rollup": "CUSTOM=TRUE npm run rollup",
-    "greenkeeper:update-lockfile": "greenkeeper-lockfile-update",
-    "greenkeeper:upload-lockfile": "greenkeeper-lockfile-upload",
-    "coverage": "babel-node -- ./node_modules/istanbul/lib/cli cover --include-all-sources true -x \"target/*\" -x \"src/index.js\" -x \"rollup.config.js\" -x \"interactiveBuild.js\" -x \"_*.js\" node_modules/tape/bin/tape ./test/**/*Test.js ${ISTANBUL_EXTRA}",
-    "checkstyle": "eslint src/**/*.js test/**/*.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/125m125/ktapi-js.git"
-  },
-  "keywords": [
-    "kadcon"
-  ],
-  "author": "125m125",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/125m125/ktapi-js/issues"
-  },
-  "homepage": "https://github.com/125m125/ktapi-js#readme",
-  "dependencies": {
-    "btoa": "1.2.1",
-    "d3-request": "1.0.6",
-    "jssha": "2.3.1",
-    "pusher-js": "4.2.2",
-    "xmlhttprequest": "1.8.0"
-  },
-  "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-preset-env": "1.6.1",
-    "babel-tape-runner": "2.0.1",
-    "eslint": "4.19.1",
-    "greenkeeper-lockfile": "1.14.0",
-    "istanbul": "1.1.0-alpha.1",
-    "rollup": "0.58.2",
-    "rollup-plugin-spl": "0.0.5",
-    "sinon": "5.0.4",
-    "tape": "4.9.0",
-    "uglify-js": "3.3.23"
-  }
+    "name": "ktapi",
+    "version": "0.0.2",
+    "description": "A Javascript API to access kadcontrade",
+    "main": "target/ktapi-full.js",
+    "scripts": {
+        "prepare": "npm run rollup",
+        "test": "babel-tape-runner test/**/*Test.js",
+        "clean": "rm -rf target/ && rm -rf coverage/",
+        "rollup": "rollup -c --environment CUSTOM=\"$CUSTOM\",CONFIG=\"$CONFIG\" && if [ -z \"$CUSTOM$CONFIG\" ]; then FILENAME=ktapi-full; fi; FILENAME=\"$FILENAME\" npm run minimize",
+        "minimize": "uglifyjs -m -b beautify=false target/${FILENAME:-ktapi-custom}.js -o target/${FILENAME:-ktapi-custom}.min.js",
+        "interactive-rollup": "CUSTOM=TRUE npm run rollup",
+        "coverage": "babel-node -- ./node_modules/istanbul/lib/cli cover --include-all-sources true -x \"target/*\" -x \"src/index.js\" -x \"rollup.config.js\" -x \"interactiveBuild.js\" -x \"_*.js\" node_modules/tape/bin/tape ./test/**/*Test.js ${ISTANBUL_EXTRA}",
+        "checkstyle": "eslint src/**/*.js test/**/*.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/125m125/ktapi-js.git"
+    },
+    "keywords": [
+        "kadcon"
+    ],
+    "author": "125m125",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/125m125/ktapi-js/issues"
+    },
+    "homepage": "https://github.com/125m125/ktapi-js#readme",
+    "dependencies": {
+        "btoa": "1.2.1",
+        "d3-request": "1.0.6",
+        "jssha": "2.3.1",
+        "pusher-js": "4.2.2",
+        "xmlhttprequest": "1.8.0"
+    },
+    "devDependencies": {
+        "babel-cli": "6.26.0",
+        "babel-preset-env": "1.6.1",
+        "babel-tape-runner": "2.0.1",
+        "eslint": "4.19.1",
+        "istanbul": "1.1.0-alpha.1",
+        "rollup": "0.58.2",
+        "rollup-plugin-spl": "0.0.5",
+        "sinon": "5.0.4",
+        "tape": "4.9.0",
+        "uglify-js": "3.3.23"
+    }
 }
