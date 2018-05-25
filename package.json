@@ -28,8 +28,10 @@
     "homepage": "https://github.com/125m125/ktapi-js#readme",
     "dependencies": {
         "btoa": "1.2.1",
+        "d3-fetch": "^1.1.0",
         "d3-request": "1.0.6",
         "jssha": "2.3.1",
+        "node-fetch": "^2.1.2",
         "pusher-js": "4.2.2",
         "xmlhttprequest": "1.8.0"
     },
@@ -39,6 +41,7 @@
         "babel-tape-runner": "2.0.1",
         "eslint": "4.19.1",
         "istanbul": "1.1.0-alpha.1",
+        "nock": "^9.2.6",
         "rollup": "0.58.2",
         "rollup-plugin-spl": "0.0.5",
         "sinon": "5.0.4",
