@@ -22,6 +22,8 @@ import './ktapi/trades.js';
 export {default as D3RequestFactory} from './requests/D3RequestFactory.js'
 //? if (XML_HTTP_REQUEST_FACTORY)
 export {default as XMLHttpRequestFactory} from './requests/XMLHttpRequestFactory.js'
+//? if (NODE_HTTPS_REQUEST_FACTORY)
+export {default as NodeHttpsRequestFactory} from './requests/NodeHttpsRequestFactory';
 //? }
 
 //? if (AUTHENTICATORS) {

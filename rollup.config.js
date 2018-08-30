@@ -16,10 +16,13 @@ export default {
             'd3-request': 'd3',
             'pusher-js': 'Pusher',
             'xmlhttprequest': 'XMLHttpRequest',
-            'btoa': 'btoa'
+            'btoa': 'btoa',
+            'object-assign': 'Object.assign',
+            'https': 'https',
+            'url': 'url',
         },
     },
-    external: ['jssha', 'd3-request', 'pusher-js', 'xmlhttprequest', 'btoa'],
+    external: ['jssha', 'd3-request', 'pusher-js', 'xmlhttprequest', 'btoa', 'https', 'url', 'object-assign', ],
     plugins: [rollupPluginSpl({
         model: "model.json",
         config: config ? config : (custom ? false : "fullConfig.json"),
