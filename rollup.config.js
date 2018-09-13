@@ -1,4 +1,5 @@
 import rollupPluginSpl from "rollup-plugin-spl";
+import fixXMLHttpRequest from "./rollupExtra/fixXMLHttpRequest";
 
 // eslint-disable-next-line no-undef
 var custom = process.env.CUSTOM;
@@ -24,11 +25,13 @@ export default {
     },
     external: ['jssha', 'd3-request', 'pusher-js', 'xmlhttprequest', 'btoa', 'https', 'url', 'object-assign', ],
     plugins: [rollupPluginSpl({
-        model: "model.json",
-        config: config ? config : (custom ? false : "fullConfig.json"),
-        interactive: custom,
-        autocomplete: {
-            preference: true,
-        },
-    }), ],
+            model: "model.json",
+            config: config ? config : (custom ? false : "fullConfig.json"),
+            interactive: custom,
+            autocomplete: {
+                preference: true,
+            },
+        }),
+        fixXMLHttpRequest(),
+    ],
 };

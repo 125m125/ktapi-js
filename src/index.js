@@ -19,18 +19,18 @@ import './ktapi/trades.js';
 
 //? if (REQUEST_FACTORIES) {
 //? if (D3_REQUEST_FACTORY)
-export {default as D3RequestFactory} from './requests/D3RequestFactory.js'
+export {default as D3RequestFactory} from './requests/D3RequestFactory.js';
 //? if (XML_HTTP_REQUEST_FACTORY)
-export {default as XMLHttpRequestFactory} from './requests/XMLHttpRequestFactory.js'
+export {default as XMLHttpRequestFactory} from './requests/XMLHttpRequestFactory.js';
 //? if (NODE_HTTPS_REQUEST_FACTORY)
 export {default as NodeHttpsRequestFactory} from './requests/NodeHttpsRequestFactory';
 //? }
 
 //? if (AUTHENTICATORS) {
 //? if (BASIC_AUTHENTICATOR)
-export {default as BasicAuthenticator} from './authenticators/BasicAuthenticator.js'
+export {default as BasicAuthenticator} from './authenticators/BasicAuthenticator.js';
 //? if (HMAC_AUTHENTICATOR)
-export {default as HmacAuthenticator} from './authenticators/HmacAuthenticator.js'
+export {default as HmacAuthenticator} from './authenticators/HmacAuthenticator.js';
 //? }
 //? if (PUSHER) {
 import './pusher/pusherCore.js';
