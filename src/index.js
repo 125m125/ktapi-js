@@ -33,9 +33,7 @@ export {default as BasicAuthenticator} from './authenticators/BasicAuthenticator
 export {default as HmacAuthenticator} from './authenticators/HmacAuthenticator.js';
 //? }
 //? if (PUSHER) {
-import './pusher/pusherCore.js';
-import './pusher/pusherAuth.js';
-import './pusher/pusherSubscribtions.js';
+export {default as Pusher } from './notificationmanager/pusher/Pusher.js';
 //? }
 
 //? if (typeof ADDITIONAL_IMPORT !== 'undefined') {
