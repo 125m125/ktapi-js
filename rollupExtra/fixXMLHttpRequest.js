@@ -6,9 +6,10 @@ export default function fixXMLHttpRequest() {
 }
 
 
+// xmlhttprequest in the node repository is not up to date. So we take the latest version from github (located in the file githubXMLHttpRequest.js) and inject our own special bugfix on top of that.
 var codefix = `
 if (typeof exports === 'object' && typeof module !== 'undefined') {
-    var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+    var XMLHttpRequest = ` + require("fs").readFileSync('./rollupExtra/githubXMLHttpRequest.js') + `;
     require('xmlhttprequest').XMLHttpRequest = function() {
         var req = new XMLHttpRequest;
         req.target = req;
@@ -29,4 +30,4 @@ if (typeof exports === 'object' && typeof module !== 'undefined') {
         return req;
     };
 };
-`
+`;
