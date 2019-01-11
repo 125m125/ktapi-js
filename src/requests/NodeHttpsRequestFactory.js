@@ -3,6 +3,9 @@ import https from "https";
 import paramsToQuery from "../util/paramsToQuery.js";
 import urlParser from "url";
 import assign from "object-assign";
+import crypto from "crypto";
+
+var DEFAULT_FINGERPRINTS = ["Ii0NcQVclBzikUGw+iAV5+UnEmTqQDIhLZifNGM4yHY=", "ZnHPNFeZ/okzKy3UttEwn4O9V8T/qEvByGaE1FLBdq8=", "tcgiMrn7yiqTpt7SDna6sU0faF8m4QUiq24aQVW3F9U=", ];
 
 function performRequest(method, type, targetUrl, params, headers, callback, options) {
     if (options && ((options.cert && !options.key) || (options.key && !options.cert))) {
@@ -39,16 +42,38 @@ function performRequest(method, type, targetUrl, params, headers, callback, opti
         });
     });
     request.on("error", function(error) {
-        if (errorTarget) {
-            var errorTarget = error.target;
+        if (error.target) {
+            error = error.target;
             try {
-                errorTarget = JSON.parse(errorTarget.response);
+                error = JSON.parse(error.response);
             } catch (e) {
                 // parse failed -> call with unparsed errorTarget
             }
-            callback(errorTarget);
         }
+        callback(error);
     });
+    if (!options.skipKeyPinning) {
+        // pin public key, based on https://hassansin.github.io/certificate-pinning-in-nodejs
+        request.on('socket', function(socket) {
+            socket.on('secureConnect', function() {
+                // reused sessions don't have certificate data we can use to check
+                if (socket.isSessionReused()) return;
+                // lower nodejs-versions don't expose the public key
+                if (!socket.getPeerCertificate().pubkey) {
+                    return;
+                }
+                //calculate hash of public key
+                var hash = crypto.createHash('sha256');
+                hash.update(socket.getPeerCertificate().pubkey);
+                var fingerprint = hash.digest('base64');
+                // Check if certificate is valid
+                // Match the fingerprint with our saved fingerprints
+                if ((options.fingerprints || DEFAULT_FINGERPRINTS).indexOf(fingerprint) === -1) {
+                    return socket.destroy(new Error('Fingerprint of certificate is not known.'));
+                }
+            });
+        });
+    }
     if (method !== "GET") {
         request.write(paramsToQuery(params));
     }
