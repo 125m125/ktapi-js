@@ -44,6 +44,6 @@
         "rollup-plugin-spl": "0.0.6",
         "sinon": "7.3.1",
         "tape": "4.10.1",
-        "uglify-js": "3.5.3"
+        "uglify-js": "3.5.4"
     }
 }
