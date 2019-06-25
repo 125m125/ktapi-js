@@ -16,7 +16,7 @@ export default function replacePathParameters(url, params, user) {
         }
         var key2 = key.substring(1, key.length - 1),
             result;
-        if (params.hasOwnProperty(key2) && params[key2] !== undefined) {
+        if (Object.prototype.hasOwnProperty.call(params, key2) && params[key2] !== undefined) {
             result = params[key2];
             delete params[key2];
             return result;
