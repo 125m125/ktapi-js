@@ -31,7 +31,7 @@
         "d3-request": "1.0.6",
         "jssha": "2.3.1",
         "object-assign": "^4.1.1",
-        "pusher-js": "5.0.3",
+        "pusher-js": "5.1.1",
         "xmlhttprequest": "1.8.0"
     },
     "devDependencies": {
