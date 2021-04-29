@@ -1,0 +1,31 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "07:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: uglify-js
+    versions:
+    - 3.12.4
+    - 3.12.6
+  - dependency-name: rollup
+    versions:
+    - 2.35.1
+    - 2.38.3
+  - dependency-name: eslint
+    versions:
+    - 7.16.0
+    - 7.19.0
+  - dependency-name: tape
+    versions:
+    - 5.1.0
+    - 5.1.1
+  - dependency-name: sinon
+    versions:
+    - 9.2.2
+  - dependency-name: pusher-js
+    versions:
+    - 7.0.2
